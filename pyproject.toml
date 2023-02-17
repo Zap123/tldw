@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "tldw"
+version = "0.1.0"
+description = ""
+authors = ["Luca Costa <zapduke@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+openai = "^0.26.5"
+youtube-transcript-api = "^0.5.0"
+
+[tool.poetry.scripts]
+tldw = "tldw.tldw:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
