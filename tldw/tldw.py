@@ -8,7 +8,7 @@ from youtube_transcript_api.formatters import TextFormatter
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: tldw.py <youtube url>")
+        print("Usage: tldw.py <youtube video id>")
         sys.exit(1)
 
     url = sys.argv[1]
@@ -22,7 +22,7 @@ def main():
         model="text-davinci-003",
         prompt=f"{subtitle}\n\nOne paragraph summary and description of the content. Topics needs to be discussed in details \n\n",
         temperature=0.7,
-        max_tokens=100,
+        max_tokens=200,
         top_p=1.0,
         frequency_penalty=0.0,
         presence_penalty=1
