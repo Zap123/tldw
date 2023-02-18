@@ -16,4 +16,4 @@ tl;dw In this video, the speaker discusses how to learn more efficiently and avo
 
 
 ## Limits 
-This is just an experiment, it doesn't work with videos that have very long subtitles. Further investigation will be required to over come token limitations 
+This is just an experiment, it doesn't work with videos that have very long subtitles. Further investigation will be required to overcome token limitations 
