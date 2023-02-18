@@ -11,16 +11,19 @@ def main():
         print("Usage: tldw.py <youtube video id>")
         sys.exit(1)
 
-    url = sys.argv[1]
+    video_id = sys.argv[1]
 
-    transcript = YouTubeTranscriptApi.get_transcript(url)
+    transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
+    transcript = next(iter(transcript_list)).fetch()
+
     formatter = TextFormatter()
-    subtitle = formatter.format_transcript(transcript, languages=['en'])
+
+    subtitle = formatter.format_transcript(transcript)
     openai.api_key = os.getenv("OPENAI_API_KEY")
 
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt=f"{subtitle}\n\nOne paragraph summary and description of the content. Topics needs to be discussed in details \n\n",
+        prompt=f"{subtitle}\n\nOne paragraph summary in English and description of the content. Topics needs to be discussed in details \n\n",
         temperature=0.7,
         max_tokens=200,
         top_p=1.0,
@@ -29,3 +32,6 @@ def main():
     )
 
     print("tl;dw", response.choices[0].text)
+
+if __name__ == "__main__":
+    main()
