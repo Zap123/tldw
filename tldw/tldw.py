@@ -2,28 +2,54 @@
 import os
 import sys
 import openai
+import argparse
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import TextFormatter
 
+# List of prompts for the commands
+instructions = {
+    "meaning": f"One paragraph summary in English and description of the content.Topics needs to be discussed in details",
+    "query": "Answer according to content"
+}
+
+
+def build_prompt(instruction, context, input=""):
+    prompt = f"{instruction}\n\ncontent:{context}\n\n" + input
+    return prompt
+
 
 def main():
-    if len(sys.argv) < 2:
-        print("Usage: tldw.py <youtube video id>")
-        sys.exit(1)
-
-    video_id = sys.argv[1]
-
-    transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
-    transcript = next(iter(transcript_list)).fetch()
-
-    formatter = TextFormatter()
-
-    subtitle = formatter.format_transcript(transcript)
     openai.api_key = os.getenv("OPENAI_API_KEY")
+
+    parser = argparse.ArgumentParser(
+        prog='tl;dw',
+        description="Too Long; Didn't Watch generate summaries from Youtube videos",
+    )
+    parser.add_argument('video_id', metavar='video id',
+                        help='the Youtube video id')
+
+    parser.add_argument('--question', metavar='question',
+                        help='A question to search in the video (e.g. how to learn faster?)')
+
+    args = parser.parse_args()
+    # Download the default Youtube subtitle
+    transcript_list = YouTubeTranscriptApi.list_transcripts(args.video_id)
+    transcript = next(iter(transcript_list)).fetch()
+    formatter = TextFormatter()
+    subtitle = formatter.format_transcript(transcript)
+
+    # Set the default meaning prompt
+    instruction = instructions["meaning"]
+    prompt = build_prompt(instruction, subtitle)
+
+    # Change the prompt to query to answer questions
+    if args.question:
+        instruction = instructions["query"]
+        prompt = build_prompt(instruction, subtitle, args.question)
 
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt=f"{subtitle}\n\nOne paragraph summary in English and description of the content. Topics needs to be discussed in details \n\n",
+        prompt=prompt,
         temperature=0.7,
         max_tokens=200,
         top_p=1.0,
@@ -31,7 +57,10 @@ def main():
         presence_penalty=1
     )
 
-    print("tl;dw", response.choices[0].text)
+    answer = response.choices[0].text
+
+    print(f"tl;dw {answer.strip()}")
+
 
 if __name__ == "__main__":
     main()
