@@ -27,12 +27,14 @@ tl;dw In this video, the speaker discusses how to learn more efficiently and avo
 5. Motivation & Discipline: Rely on both motivation and discipline. When motivation fails, rely on discipline by having a schedule and trying your best even when you're not motivated or inspired.
 
 - tldw --question "Does gamification improve motivation?" QGdbs2S2YHk
-  tl;dw Not said
+
+tl;dw Not said
 
 - tldw --question "Does gamification improve motivation?" QGdbs2S2YHk --creative
-  tl;dw Gamification can certainly improve motivation, but it is not the only way to do so. There are many other strategies that can be employed to motivate people such as providing incentives or setting goals. Additionally, there needs to be a balance between work and play in order for gamification to be effective.
 
-  creative is less strict and will try to reply even if the video didn't address the topic like in this case
+tl;dw Gamification can certainly improve motivation, but it is not the only way to do so. There are many other strategies that can be employed to motivate people such as providing incentives or setting goals. Additionally, there needs to be a balance between work and play in order for gamification to be effective.
+
+creative is less strict and will try to reply even if the video didn't address the topic like in this case
 
 ## Limits
 
